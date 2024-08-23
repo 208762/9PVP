@@ -191,21 +191,21 @@ class PiskvorkyGame:
     # Definition of function for showing information about the game
     def show_information(self):
         text0 = ("This is a game of Piskvorky (Tic-Tac-Toe).")
-        text1 = ("The objective is to align five of your symbols in a row, either"
+        text1 = ("The objective is to align three of your symbols in a row, either "
                "horizontally, vertically, or diagonally."
-               "The game is played on a 3x3 grid, with Player using circles (O)"
-               "and player 2 uses crosses (X)."
-               "Players take turns placing their symbols: Player uses the Left"
-               "Mouse Button (LMB)."
-               "To win, you need to align 3 of your symbols in a row. The game"
-               "ends when a player forms such a line or the grid is completely filled,"
-               "resulting in a draw."
-               "You can restart the game at any time by pressing the 'R' key. Enter"
-               "your name at the beginning, which will be displayed during your turns."
-               "Use the interactive menu to start a new game, view game information,"
-               "or exit. Be strategic: block your opponent while creating your own row"
-               "of five. Enjoy and may the best player win!"
-               "This game is only a test game for using the Minimax algorithm"
+               "The game is played on a 3x3 grid, with Player using circles (O) "
+               "and PC Bot uses crosses (X). "
+               "Players take turns placing their symbols: Player uses the Left "
+               "Mouse Button (LMB). "
+               "To win, you need to align 3 of your symbols in a row. The game "
+               "ends when a player forms such a line or the grid is completely filled, "
+               "resulting in a draw. "
+               "You can restart the game at any time by pressing the 'R' key. Enter "
+               "your name at the beginning. "
+               "Use the interactive menu to start a new game, view game information, "
+               "or exit. Be strategic: block your opponent while creating your own row "
+               "of five. Enjoy and may the best player win! "
+               "This game is only a test game for using the Minimax algorithm "
                "with alpha-beta pruning to optimize it.")
         text2 = ("Important key shortcuts: ")
         text3 = ("Press 'M' to go back to the Main Menu.")
