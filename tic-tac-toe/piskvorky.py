@@ -444,15 +444,18 @@ class PiskvorkyGame:
         self.screen.fill(self.background_color)
         self.clear_board()
         if self.game_choice == "single":
-            self.player_picker(game = self.game_choice, player_name = self.player_name)     
+            self.player_picker(game = self.game_choice, player_name = self.player_name)
+            self.draw_lines()
+            self.info_box()
+            text_surface = self.font.render(f"{self.current_player_name} is first to make a move!", True, self.GREEN)
+            text_rect = text_surface.get_rect(center = (self.width // 2, self.height - 50))
+            self.screen.blit(text_surface, text_rect)
+            self.draw_symbols()  
         else:
             self.player_picker(game = self.game_choice, player1_name = self.player1_name, player2_name = self.player2_name)  
-        self.draw_lines()
-        self.info_box()
-        text_surface = self.font.render(f"{self.current_player_name} is first to make a move!", True, self.GREEN)
-        text_rect = text_surface.get_rect(center = (self.width // 2, self.height - 50))
-        self.screen.blit(text_surface, text_rect)
-        self.draw_symbols()
+            self.draw_lines()
+            self.info_box()
+            self.draw_symbols()
         
     # Definition of function for full board detection
     def is_board_full(self):
@@ -527,7 +530,8 @@ class PiskvorkyGame:
                     move_score = self.evaluate_move(board, i, player)
                     if move_score > best_score:
                         best_score = move_score
-                        best_move = i        
+                        best_move = i
+                        
         return best_move
         
     # Definition of function for running the game itself
@@ -622,15 +626,12 @@ class PiskvorkyGame:
                                     self.current_player = 2
 
                     if self.current_player == 2 and not self.game_over:  
-
+                        
                         move = self.best_move(board = self.board, player = self.current_player)
                         clicked_row, clicked_col = divmod(move, self.board_rows)
-                        self.info_box()
-                        
+                        self.info_box()                        
                         if self.board[clicked_row][clicked_col] == 0:
                             self.board[clicked_row][clicked_col] = 2
-                            # time.sleep(1)
-
                             self.draw_symbols()
                             if self.check_win(2):
                                 self.display_winner(2, game = self.game_choice)
