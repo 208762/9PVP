@@ -125,7 +125,7 @@ class PiskvorkyGame:
         self.screen.blit(text_surface, self.text_rect)
     
     # Function for clearing the text from info box
-    def clear_text(self):
+    def info_box(self):
         clear_rect = pygame.Rect(0, self.height - self.info_box_height, self.width, self.info_box_height,) 
         pygame.draw.rect(self.screen, self.background_color, clear_rect)
     
@@ -172,10 +172,10 @@ class PiskvorkyGame:
                     mouseX, mouseY = event.pos
                     if self.width // 2 - 150 < mouseX < self.width // 2 + 150:
                         if self.height // 3 - 25 < mouseY < self.height // 3 + 25:
-                            self.ask_for_name()
+                            self.name_n_play()
                             return
                         elif self.height // 3 + 25 < mouseY < self.height // 3 + 75:
-                            self.ask_for_names()
+                            self.names_n_play()
                             return
                         elif self.height // 3 + 75 < mouseY < self.height // 3 + 125:
                             pygame.quit()
@@ -185,24 +185,31 @@ class PiskvorkyGame:
                         self.menu()
                             
     # Asking for the name of player 
-    def ask_for_name(self):
+    def name_n_play(self):
         self.screen.fill(self.names_color)
         self.player_name = self.get_text_input(1, game_choice = "single")
         self.player_picker(game = "single", player_name = self.player_name)
         self.screen.fill(self.background_color)
+        self.clear_board()
         self.draw_lines()
         self.draw_symbols()
+        self.info_box()
+        text_surface = self.font.render(f"{self.current_player_name} is first to make a move!", True, self.GREEN)
+        text_rect = text_surface.get_rect(center = (self.width // 2, self.height - 50))
+        self.screen.blit(text_surface, text_rect)
         self.run()
     
     # Asking for the names of both players     
-    def ask_for_names(self):
+    def names_n_play(self):
         self.screen.fill(self.names_color)
         self.player1_name = self.get_text_input(1, game_choice = "double")
         self.player2_name = self.get_text_input(2, game_choice = "double")
         self.player_picker(game = "double", player1_name = self.player1_name, player2_name = self.player2_name)
         self.screen.fill(self.background_color)
+        self.clear_board()
         self.draw_lines()
         self.draw_symbols()
+        self.info_box()
         self.run()                      
     
     # Getting the text from the player input
@@ -280,19 +287,19 @@ class PiskvorkyGame:
     # Showing information about the game
     def show_information(self):
         text0 = ("This is a game of Piskvorky (Tic-Tac-Toe).")
-        text1 = ("The objective is to align five of your symbols in a row, either"
-               "horizontally, vertically, or diagonally."
-               "The game is played on a 14x14 grid, with Player 1 using circles (O)"
-               "and starting first. Player 2 uses crosses (X)."
-               "Players take turns placing their symbols: Player 1 uses the Left"
-               "Mouse Button (LMB), while Player 2 uses the Right Mouse Button (RMB)."
-               "To win, you need to align five of your symbols in a row. The game"
-               "ends when a player forms such a line or the grid is completely filled,"
-               "resulting in a draw."
-               "You can restart the game at any time by pressing the 'R' key. Enter"
-               "your names at the beginning, which will be displayed during your turns."
-               "Use the interactive menu to start a new game, view game information,"
-               "or exit. Be strategic: block your opponent while creating your own row"
+        text1 = ("The objective is to align five of your symbols in a row, either "
+               "horizontally, vertically, or diagonally. "
+               "The game is played on a 14x14 grid, with Player 1 using circles (O) "
+               "and Player 2 uses crosses (X). "
+               "Players take turns placing their symbols: Player 1 uses the Left "
+               "Mouse Button (LMB), while Player 2 uses the Right Mouse Button (RMB). "
+               "To win, you need to align five of your symbols next to each other. The game "
+               "ends when a player forms such a line or the grid is completely filled, "
+               "resulting in a draw. "
+               "You can restart the game at any time by pressing the 'R' key. Enter "
+               "your names at the beginning, which will be displayed during your turns. "
+               "Use the interactive menu to start a new game, view game information, "
+               "or exit. Be strategic: block your opponent while creating your own row "
                "of five. Enjoy and may the best player win!")
         text2 = ("Important key shortcuts: ")
         text3 = ("Press 'M' to go back to the Main Menu.")
@@ -362,7 +369,7 @@ class PiskvorkyGame:
 
         for row in range(self.board_rows):
             for col in range(self.board_cols):
-                if (self.board_rows - 1) - row - 4 > 0 and col + 4 < self.board_cols:
+                if (self.board_rows - 1) - row - 3 > 0 and col + 4 < self.board_cols:
                     if self.board[(self.board_rows - 1) - row][col] == player and self.board[(self.board_rows - 1) - row - 1][col + 1] == player and self.board[(self.board_rows - 1) - row - 2][col + 2] == player and self.board[(self.board_rows - 1) - row - 3][col + 3] == player and self.board[(self.board_rows - 1) - row - 4][col + 4] == player:
                         self.draw_asc_diagonal(row, col, player)
                         return True
@@ -408,7 +415,6 @@ class PiskvorkyGame:
     # Display the winner
     def display_winner(self, winner, game):
         if game == "single":
-            self.clear_text()
             if winner == 1:
                 text = f"{self.player_name} Wins!"
             elif winner == 2:
@@ -416,14 +422,14 @@ class PiskvorkyGame:
             elif winner == "draw":
                 text = "It is a Draw"
         elif game == "double":
-            self.clear_text()
             if winner == 1:
                 text = f"{self.player1_name} Wins!"
             elif winner == 2:
                 text = f"{self.player2_name} Wins!"
             elif winner == "draw":
                 text = "It is a Draw"
-            
+        
+        self.info_box()
         text_surface = self.font.render(text, True, self.GREEN)
         text_rect = text_surface.get_rect(center = (self.width // 2, self.height - 50))
 
@@ -442,6 +448,10 @@ class PiskvorkyGame:
         else:
             self.player_picker(game = self.game_choice, player1_name = self.player1_name, player2_name = self.player2_name)  
         self.draw_lines()
+        self.info_box()
+        text_surface = self.font.render(f"{self.current_player_name} is first to make a move!", True, self.GREEN)
+        text_rect = text_surface.get_rect(center = (self.width // 2, self.height - 50))
+        self.screen.blit(text_surface, text_rect)
         self.draw_symbols()
         
     # Definition of function for full board detection
@@ -529,9 +539,9 @@ class PiskvorkyGame:
                         pygame.quit()
                         sys.exit()
                         
-                    if not self.game_over:
+                    if not self.game_over and self.game_choice == "double":
                         if not self.check_win(1) and not self.check_win(2):
-                            self.clear_text()
+                            self.info_box()
                         if self.current_player == 1 and not self.check_win(1):
                             self.display_text(f"{self.player1_name} is playing! (LMB)", (self.width // 2, self.height - self.playing_text_y), color = self.WHITE, font = self.playing_font)
                         elif self.current_player == 2 and not self.check_win(2):
@@ -544,7 +554,7 @@ class PiskvorkyGame:
                         clicked_row = mouseY // self.square_size
                         clicked_col = mouseX // self.square_size
 
-                        if self.current_player == 1 and event.button == 1:  
+                        if self.current_player == 1 and event.button == 1:
                             if 0 <= clicked_row < self.board_rows and 0 <= clicked_col < self.board_cols:
                                 if self.board[clicked_row][clicked_col] == 0:
                                     self.board[clicked_row][clicked_col] = 1
@@ -558,7 +568,7 @@ class PiskvorkyGame:
                                             self.game_over = True
                                     self.current_player = 2
 
-                        elif self.current_player == 2 and event.button == 3:  
+                        elif self.current_player == 2 and event.button == 3: 
                             if 0 <= clicked_row < self.board_rows and 0 <= clicked_col < self.board_cols:
                                 if self.board[clicked_row][clicked_col] == 0:
                                     self.board[clicked_row][clicked_col] = 2
@@ -587,15 +597,7 @@ class PiskvorkyGame:
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         pygame.quit()
-                        sys.exit()
-                        
-                    if not self.game_over:
-                        if not self.check_win(1) and not self.check_win(2):
-                            self.clear_text()
-                        if self.current_player == 1 and not self.check_win(1):
-                            self.display_text(f"{self.player_name} is playing! (LMB)", (self.width // 2, self.height - self.playing_text_y), color = self.WHITE, font = self.playing_font)
-                        elif self.current_player == 2 and not self.check_win(2):
-                            self.display_text(f"{self.bot_name} is playing! (RMB)", (self.width // 2, self.height - self.playing_text_y), color = self.WHITE, font = self.playing_font)   
+                        sys.exit()  
                         
                     if event.type == pygame.MOUSEBUTTONDOWN and not self.game_over:
                         mouseX = event.pos[0]
@@ -604,7 +606,8 @@ class PiskvorkyGame:
                         clicked_row = mouseY // self.square_size
                         clicked_col = mouseX // self.square_size
 
-                        if self.current_player == 1 and event.button == 1:  
+                        if self.current_player == 1 and event.button == 1:
+                            self.info_box()
                             if 0 <= clicked_row < self.board_rows and 0 <= clicked_col < self.board_cols:
                                 if self.board[clicked_row][clicked_col] == 0:
                                     self.board[clicked_row][clicked_col] = 1
@@ -622,9 +625,12 @@ class PiskvorkyGame:
 
                         move = self.best_move(board = self.board, player = self.current_player)
                         clicked_row, clicked_col = divmod(move, self.board_rows)
+                        self.info_box()
                         
                         if self.board[clicked_row][clicked_col] == 0:
                             self.board[clicked_row][clicked_col] = 2
+                            # time.sleep(1)
+
                             self.draw_symbols()
                             if self.check_win(2):
                                 self.display_winner(2, game = self.game_choice)
