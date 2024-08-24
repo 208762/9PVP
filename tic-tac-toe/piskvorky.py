@@ -91,7 +91,7 @@ class PiskvorkyGame:
         # Starting the menu function
         self.menu()
     
-    # Function for random picking who is playing first
+    # Definition of function for random picking who is playing first
     def player_picker(self, game, player_name = None, player1_name = None, player2_name = None):
         self.game_choice = game
         if self.game_choice == "single":
@@ -118,18 +118,18 @@ class PiskvorkyGame:
             else:
                 self.current_player = 2
         
-    # Function for displaying the text in the info box
+    # Definition of function for displaying the text in the info box
     def display_text(self, text, position, color, font):
         text_surface = font.render(text, True, color)
         self.text_rect = text_surface.get_rect(center=position)
         self.screen.blit(text_surface, self.text_rect)
     
-    # Function for clearing the text from info box
+    # Definition of function for clearing the text from info box
     def info_box(self):
         clear_rect = pygame.Rect(0, self.height - self.info_box_height, self.width, self.info_box_height,) 
         pygame.draw.rect(self.screen, self.background_color, clear_rect)
     
-    # Menu screen
+    # Definition of function for creating the menu screen
     def menu(self):
         self.screen.fill(self.background_color)
         self.display_text("TIC-TAC-TOE", (self.width // 2, self.height // 3 - 100), color = self.BLACK, font = self.name_font)
@@ -156,7 +156,7 @@ class PiskvorkyGame:
                             pygame.quit()
                             sys.exit()
     
-    # Function for picking the type of game (single, double)
+    # Definition of function for picking the type of game (single, double)
     def game_type(self):
         self.screen.fill(self.background_color)
         self.display_text("Game for One Player", (self.width // 2, self.height // 3), color = self.WHITE, font = self.name_font)
@@ -184,7 +184,7 @@ class PiskvorkyGame:
                     if event.key == pygame.K_m:
                         self.menu()
                             
-    # Asking for the name of player 
+    # Definition of function for asking for the name of player 
     def name_n_play(self):
         self.screen.fill(self.names_color)
         self.player_name = self.get_text_input(1, game_choice = "single")
@@ -199,7 +199,7 @@ class PiskvorkyGame:
         self.screen.blit(text_surface, text_rect)
         self.run()
     
-    # Asking for the names of both players     
+    # Definition of function for asking for the names of both players     
     def names_n_play(self):
         self.screen.fill(self.names_color)
         self.player1_name = self.get_text_input(1, game_choice = "double")
@@ -212,7 +212,7 @@ class PiskvorkyGame:
         self.info_box()
         self.run()                      
     
-    # Getting the text from the player input
+    # Definition of function for getting the text from the player input
     def get_text_input(self, player_num, game_choice):
         input_box = pygame.Rect(self.width // 2.55, self.height // 2.7, self.width // 2, 50)
         color_inactive = pygame.Color("grey")
@@ -259,7 +259,8 @@ class PiskvorkyGame:
             pygame.draw.rect(self.screen, color, input_box, 2)
             pygame.display.flip()
             clock.tick(60)
-                                
+       
+    # Definition of function for rendering multi-line texts                         
     def render_multi_line_text(self, screen, text, position, font, max_width, color):
         lines = []
         words = text.split(' ')
@@ -284,7 +285,7 @@ class PiskvorkyGame:
             screen.blit(text_surface, (x, y))
             y += text_surface.get_height()
     
-    # Showing information about the game
+    # Definition of function for showing information about the game
     def show_information(self):
         text0 = ("This is a game of Piskvorky (Tic-Tac-Toe).")
         text1 = ("The objective is to align five of your symbols in a row, either "
@@ -333,7 +334,7 @@ class PiskvorkyGame:
                     if event.key == pygame.K_m:
                         self.menu()        
 
-    # Drawing all the lines
+    # Definition of function for drawing all the lines
     def draw_lines(self):
         for i in range(self.board_rows):
             pygame.draw.line(self.screen, self.line_color, (0, (i + 1) * self.square_size), (self.width, (i + 1) * self.square_size), self.line_width)
@@ -341,7 +342,7 @@ class PiskvorkyGame:
         for j in range(self.board_cols - 1):
             pygame.draw.line(self.screen, self.line_color, ((j + 1) * self.square_size, 0), ((j + 1) * self.square_size, self.height), self.line_width)
 
-    # Drawing either circles or crosses
+    # Definition of function for drawing either circles or crosses
     def draw_symbols(self):
         for row in range(self.board_rows):
             for col in range(self.board_cols):
@@ -351,7 +352,7 @@ class PiskvorkyGame:
                     pygame.draw.line(self.screen, self.cross_color, (col * self.square_size + self.space, row * self.square_size + self.square_size - self.space), (col * self.square_size + self.square_size - self.space, row * self.square_size + self.space), self.cross_width)
                     pygame.draw.line(self.screen, self.cross_color, (col * self.square_size + self.space, row * self.square_size + self.space), (col * self.square_size + self.square_size - self.space, row * self.square_size + self.square_size - self.space), self.cross_width)
 
-    # Checking possible win
+    # Definition of function for checking possible win
     def check_win(self, player):
         for col in range(self.board_cols):
             for row in range(self.board_rows):
@@ -383,7 +384,7 @@ class PiskvorkyGame:
 
         return False
 
-    # Drawing all the winning lines
+    # Definition of functions for drawing all the winning lines
     def draw_vertical_winning_line(self, row, col, player):
         posX = col * self.square_size + self.square_size // 2
         posY = row * self.square_size + self.square_size // 2
@@ -412,7 +413,7 @@ class PiskvorkyGame:
         color = self.circle_color if player == 1 else self.cross_color
         pygame.draw.line(self.screen, color, (posX1, posY1), (posX2, posY2), self.win_line_width)
 
-    # Display the winner
+    # Definition of function for displaying the winner
     def display_winner(self, winner, game):
         if game == "single":
             if winner == 1:
@@ -516,7 +517,7 @@ class PiskvorkyGame:
         
         return count
     
-    # Find the best move by evaluating all possible moves
+    # Definition of function for finding the best move by evaluating all possible moves
     def best_move(self, board, player):
         best_score = -float('inf')
         best_move = None

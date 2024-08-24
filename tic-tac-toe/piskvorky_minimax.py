@@ -164,6 +164,7 @@ class PiskvorkyGame:
             pygame.display.flip()
             clock.tick(60)
     
+    # Definition of function for rendering multi-line texts
     def render_multi_line_text(self, screen, text, position, font, max_width, color):
         lines = []
         words = text.split(' ')
