@@ -10,7 +10,7 @@ from collections import defaultdict, Counter
 import sys
 import os
 
-# Definition of path function to be able to import pictures in case of both the application and the .py script inside VS code
+# Definition of path function to be able to import pictures in case of both the .exe application and the .py script inside VS code
 def resource_path(relative_path):
     try:
         base_path = sys._MEIPASS # Temporary folder created while the .exe app is running
@@ -340,6 +340,7 @@ class Main:
                         descriptions = [item['weather'][0]['description'] for item in data]
                         most_common_description = Counter(descriptions).most_common(1)[0][0]        
 
+                        # Window design handling
                         label_next = customtkinter.CTkLabel(self.mainframe, text = f"{next_day_name}", text_color = "black", fg_color = self.background_color, width = 80, height = 20, font = ("Nirmala UI", 15))
                         label_next.grid(row = 9, column = 0, padx = (63 + i, 10), pady = (25, 0), sticky = "w")
                         self.next_weather_labels.append(label_next)
